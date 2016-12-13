@@ -158,11 +158,10 @@ def updateHand(hand, word):
     hand: dictionary (string -> int)
     returns: dictionary (string -> int)
     """
-    for l in hand.keys():
-        if l in word:
-            hand[l] = hand.get(l) - 1
-            print(l)
-        return hand
+    handcopy = hand.copy()
+    for l in word:
+        handcopy[l] = handcopy.get(l, 0) - 1
+    return handcopy
 
 #
 # Problem #3: Test word validity
@@ -180,12 +179,21 @@ def isValidWord(word, hand, wordList):
     hand: dictionary (string -> int)
     wordList: list of lowercase strings
     """
-    # TO DO ... <-- Remove this comment when you code this function
-
+    handcopy = hand.copy()
+    for l in word:
+        if handcopy.get(l, 0) >= 1:
+            handcopy[l] -= 1
+        else:
+            return False
+    if word in wordList:
+        return True
+    else:
+        return False
 
 #
 # Problem #4: Playing a hand
 #
+
 
 def calculateHandlen(hand):
     """
@@ -194,7 +202,7 @@ def calculateHandlen(hand):
     hand: dictionary (string-> int)
     returns: integer
     """
-    # TO DO... <-- Remove this comment when you code this function
+    return sum(hand.values())
 
 
 def playHand(hand, wordList, n):
