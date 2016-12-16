@@ -6,7 +6,6 @@
 #
 
 import random
-import string
 
 VOWELS = 'aeiou'
 CONSONANTS = 'bcdfghjklmnpqrstvwxyz'
@@ -30,14 +29,14 @@ def loadWords():
     Depending on the size of the word list, this function may
     take a while to finish.
     """
-    print("Loading word list from file...")
+    print"Loading word list from file..."
     # inFile: file
     inFile = open(WORDLIST_FILENAME, 'r')
     # wordList: list of strings
     wordList = []
     for line in inFile:
         wordList.append(line.strip().lower())
-    print("  ", len(wordList), "words loaded.")
+    print"  ", len(wordList), "words loaded."
     return wordList
 
 
@@ -96,7 +95,7 @@ def displayHand(hand):
 
     For example:
     >>> displayHand({'a':1, 'x':2, 'l':3, 'e':1})
-    Should print out something like:
+    Should printout something like
        a x x l l l e
     The order of the letters is unimportant.
 
@@ -104,8 +103,8 @@ def displayHand(hand):
     """
     for letter in hand.keys():
         for j in range(hand[letter]):
-            print(letter, end=' ')              # print all on the same line
-    print()                               # print an empty line
+            print letter,             # printall on the same line
+    print                              # printan empty line
 
 
 #
@@ -233,10 +232,10 @@ def playHand(hand, wordList, n):
     # As long as there are still letters left in the hand:
     while sum(hand.values()) != 0:
         # Display the hand
-        print('Current Hand:  ', end='')
+        print'Current Hand:',
         displayHand(hand)
     # Ask user for input
-        word = input(
+        word = raw_input(
             'Enter word, or a "." to indicate that you are finished: ')
     # If the input is a single period:
         if word == '.':
@@ -246,24 +245,22 @@ def playHand(hand, wordList, n):
         else:
             # If the word is not valid:
             if isValidWord(word, hand, wordList) is False:
-                # Reject invalid word (print a message followed by a blank
+                # Reject invalid word (printa message followed by a blan
                 # line)
-                print('Invalid word, please try again.')
-                print()
-    # Otherwise (the word is valid):
+                print'Invalid word, please try again.'
+                print    # Otherwise (the word is valid)
             else:
                 # Tell the user how many points the word earned, and the updated total
                 # score, in one line followed by a blank line
                 wordScore = getWordScore(word, n)
                 totalScore += wordScore
-                print('"' + word + '" earned ' + str(wordScore) +
-                      ' points. Total: ' + str(totalScore) + ' points.')
-                print()
-    # Update the hand
+                print'"' + word + '" earned ' + str(wordScore) + ' points. Total: ' + str(totalScore) + ' points.'
+                print    # Update the han
                 hand = updateHand(hand, word)
     # Game is over (user entered a '.' or ran out of letters), so tell user
     # the total score
-    print('Goodbye! Total score: ' + str(totalScore) + ' points.')
+    print'Goodbye! Total score: ' + str(totalScore) + ' points.'
+    print
 
 #
 # Problem #5: Playing a game
@@ -282,9 +279,23 @@ def playGame(wordList):
 
     2) When done playing the hand, repeat from step 1
     """
-    # TO DO ... <-- Remove this comment when you code this function
-    # <-- Remove this line when you code the function
-    print("playGame not yet implemented.")
+    hand = {}
+    while 1:
+        choice = raw_input(
+            'Enter n to deal a new hand, r to replay the last hand, or e to end game: ')
+        if choice == 'n':
+            hand = dealHand(HAND_SIZE)
+            playHand(hand, wordList, HAND_SIZE)
+        elif choice == 'r':
+            if hand != {}:
+                playHand(hand, wordList, HAND_SIZE)
+            else:
+                print 'You have not played a hand yet. Please play a new hand first!'
+                print
+        elif choice == 'e':
+            break
+        else:
+            print'Invalid command.'
 
 
 #
