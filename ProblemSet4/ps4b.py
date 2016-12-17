@@ -23,24 +23,31 @@ def compChooseWord(hand, wordList, n):
 
     returns: string or None
     """
-    # BEGIN PSEUDOCODE <-- Remove this comment when you code this function; do your coding within the pseudocode (leaving those comments in-place!)
-    # Create a new variable to store the maximum score seen so far (initially 0)
-
-    # Create a new variable to store the best word seen so far (initially None)  
-
+    # Create a new variable to store the maximum score seen so far (initially
+    # 0)
+    maxscore = 0
+    # Create a new variable to store the best word seen so far (initially None)
+    bestword = None
     # For each word in the wordList
-
+    for word in wordList:
         # If you can construct the word from your hand
         # (hint: you can use isValidWord, or - since you don't really need to test if the word is in the wordList - you can make a similar function that omits that test)
-
+        handcopy = hand.copy()
+        for l in word:
+            if handcopy.get(l, 0) >= 1:
+                handcopy[l] -= 1
+            else:
+                break
+        else:    
             # Find out how much making that word is worth
-
+            score = getWordScore(word, n)
             # If the score for that word is higher than your best score
-
-                # Update your best score, and best word accordingly
-
-
+            if score > maxscore:
+                    # Update your best score, and best word accordingly
+                    maxscore = score
+                    bestword = word
     # return the best word you found.
+    return bestword
 
 
 #
@@ -60,21 +67,23 @@ def compPlayHand(hand, wordList, n):
     4)  The sum of the word scores is displayed when the hand finishes.
     5)  The hand finishes when the computer has exhausted its possible
     choices (i.e. compChooseWord returns None).
- 
+
     hand: dictionary (string -> int)
     wordList: list (string)
     n: integer (HAND_SIZE; i.e., hand size required for additional points)
     """
     # TO DO ... <-- Remove this comment when you code this function
-    
+
 #
 # Problem #8: Playing a game
 #
 #
+
+
 def playGame(wordList):
     """
     Allow the user to play an arbitrary number of hands.
- 
+
     1) Asks the user to input 'n' or 'r' or 'e'.
         * If the user inputs 'e', immediately exit the game.
         * If the user inputs anything that's not 'n', 'r', or 'e', keep asking them again.
@@ -85,7 +94,7 @@ def playGame(wordList):
     3) Switch functionality based on the above choices:
         * If the user inputted 'n', play a new (random) hand.
         * Else, if the user inputted 'r', play the last hand again.
-      
+
         * If the user inputted 'u', let the user play the game
           with the selected hand, using playHand.
         * If the user inputted 'c', let the computer play the 
@@ -96,14 +105,13 @@ def playGame(wordList):
     wordList: list (string)
     """
     # TO DO... <-- Remove this comment when you code this function
-    print "playGame not yet implemented." # <-- Remove this when you code this function
+    # <-- Remove this when you code this function
+    print "playGame not yet implemented."
 
-        
+
 #
 # Build data structures used for entire session and play game
 #
 if __name__ == '__main__':
     wordList = loadWords()
     playGame(wordList)
-
-
