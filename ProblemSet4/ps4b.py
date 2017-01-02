@@ -9,7 +9,7 @@ import time
 #
 def compChooseWord(hand, wordList, n):
     """
-    Given a hand and a wordList, find the word that gives 
+    Given a hand and a wordList, find the word that gives
     the maximum value score, and return it.
 
     This word should be calculated by considering all the words
@@ -38,14 +38,14 @@ def compChooseWord(hand, wordList, n):
                 handcopy[l] -= 1
             else:
                 break
-        else:    
+        else:
             # Find out how much making that word is worth
             score = getWordScore(word, n)
             # If the score for that word is higher than your best score
             if score > maxscore:
-                    # Update your best score, and best word accordingly
-                    maxscore = score
-                    bestword = word
+                # Update your best score, and best word accordingly
+                maxscore = score
+                bestword = word
     # return the best word you found.
     return bestword
 
@@ -56,13 +56,13 @@ def compChooseWord(hand, wordList, n):
 def compPlayHand(hand, wordList, n):
     """
     Allows the computer to play the given hand, following the same procedure
-    as playHand, except instead of the user choosing a word, the computer 
+    as playHand, except instead of the user choosing a word, the computer
     chooses it.
 
     1) The hand is displayed.
     2) The computer chooses a word.
-    3) After every valid word: the word and the score for that word is 
-    displayed, the remaining letters in the hand are displayed, and the 
+    3) After every valid word: the word and the score for that word is
+    displayed, the remaining letters in the hand are displayed, and the
     computer chooses another word.
     4)  The sum of the word scores is displayed when the hand finishes.
     5)  The hand finishes when the computer has exhausted its possible
@@ -72,7 +72,25 @@ def compPlayHand(hand, wordList, n):
     wordList: list (string)
     n: integer (HAND_SIZE; i.e., hand size required for additional points)
     """
-    # TO DO ... <-- Remove this comment when you code this function
+    totalScore = 0
+    while 1:
+        print'Current Hand:',
+        displayHand(hand)
+        word = compChooseWord(hand, wordList, n)
+        if word == None:
+            break
+        else:
+            score = getWordScore(word, n)
+            totalScore += score
+            print "'" + word + "' earned " + str(score) + ' points. Total: ' + str(totalScore) + ' points'
+            hand = updateHand(hand, word)
+            if sum(hand.values()) == 0:
+                break
+            else:
+                print
+    print 'Total score: ' + str(totalScore) + ' points.'
+    print
+
 
 #
 # Problem #8: Playing a game
@@ -97,17 +115,39 @@ def playGame(wordList):
 
         * If the user inputted 'u', let the user play the game
           with the selected hand, using playHand.
-        * If the user inputted 'c', let the computer play the 
+        * If the user inputted 'c', let the computer play the
           game with the selected hand, using compPlayHand.
 
     4) After the computer or user has played the hand, repeat from step 1
 
     wordList: list (string)
     """
-    # TO DO... <-- Remove this comment when you code this function
-    # <-- Remove this when you code this function
-    print "playGame not yet implemented."
-
+    hand = {}
+    while 1:
+        choice = raw_input(
+            'Enter n to deal a new hand, r to replay the last hand, or e to end game: ')
+        if choice == 'n':
+            hand = dealHand(HAND_SIZE)
+        elif choice == 'e':
+            break
+        elif choice == 'r':
+            if hand == {}:
+                print 'You have not played a hand yet. Please play a new hand first!'
+                continue
+        else:
+            print 'Invalid command.'
+            continue
+        while 1:
+            player = raw_input(
+                'Enter u to have yourself play, c to have the computer play: ')
+            if player == 'u':
+                playHand(hand, wordList, HAND_SIZE)
+                break
+            elif player == 'c':
+                compPlayHand(hand, wordList, HAND_SIZE)
+                break
+            else:
+                print 'Invalid command.'
 
 #
 # Build data structures used for entire session and play game
