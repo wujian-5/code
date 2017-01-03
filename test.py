@@ -129,34 +129,42 @@ class Family(object):
           The absolute value of the difference between the
           distance from each node to their common ancestor.
         """
+        acopy, bcopy = a, b
         i = 0
         j = 0
-        print 'start'
-        for n in range(100):
-            if self.names_to_nodes[a].get_parent == self.root:
-                break
-            else:
-                i += 1
-                a = str(self.names_to_nodes[a])
-                print a
-        print 'end'
-        while True:
-            if self.names_to_nodes[b].get_parent == self.root:
-                break
-            else:
-                j += 1
-                b = str(self.names_to_nodes[b])
+        if self.names_to_nodes[a] != self.root:
+            while True:
+                if self.names_to_nodes[a].get_parent() == self.root:
+                    break
+                else:
+                    i += 1
+                    a = str(self.names_to_nodes[a].get_parent())
+        if self.names_to_nodes[b] != self.root:
+            while True:
+                if self.names_to_nodes[b].get_parent() == self.root:
+                    break
+                else:
+                    j += 1
+                    b = str(self.names_to_nodes[b].get_parent())
         if i > j:
-            d = j
             r = i - j
+            for n in range(r):
+                acopy = str(self.names_to_nodes[acopy].get_parent())
+            t = 0
+            while acopy != acopy:
+                t += 1
+                acopy = str(self.names_to_nodes[acopy].get_parent())
+                bcopy = str(self.names_to_nodes[bcopy].get_parent())
         else:
-            d = i
             r = j - i
-        cousinType = {0: 'zeroth', 1: 'first', 2: 'second'}
-        return(cousinType[d], str(r) + ' removed')
-
-        ## YOUR CODE HERE ####
-        raise NotImplementedError()
+            for n in range(r):
+                bcopy = str(self.names_to_nodes[bcopy].get_parent())
+            t = 0
+            while acopy != bcopy:
+                t += 1
+                acopy = str(self.names_to_nodes[acopy].get_parent())
+                bcopy = str(self.names_to_nodes[bcopy].get_parent())
+        return t, r
 
 
 f = Family("a")
