@@ -35,7 +35,7 @@ def insert(atMe, newFrob):
     newFrob: a Frob with no links
     This procedure appropriately inserts newFrob into the linked list that atMe is a part of.    
     """
-    while atMe != None and atMe.myName() < newFrob.myName():
+    while atMe != None and atMe.myName() <= newFrob.myName():
         before = atMe
         atMe = atMe.getAfter()
         after = atMe
@@ -57,11 +57,3 @@ insert(eric, ruth)
 insert(eric, fred)
 insert(ruth, martha)
 
-person = andrew
-while person != None:
-    print person.myName()
-    person = person.getAfter()
-person = ruth
-while person != None:
-    print person.myName()
-    person = person.getBefore()
